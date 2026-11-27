@@ -1,0 +1,26 @@
+---
+import Icon from './Icon.astro';
+interface Props { variant?: 'home' | 'ads'; }
+const { variant = 'home' } = Astro.props;
+---
+<div class="vis" role="img" aria-label="Illustration of an AI product ad on a phone with small cards for editing, bookings and lead tracking">
+  <div class="ring"></div><div class="sun"></div>
+  <div class="phone"><div class="screen">
+    <div class="tag"><b>AI Product Commercial</b>15 sec · 9:16</div>
+    <div class="cap"></div><div class="prod"></div><div class="shadow"></div>
+    <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg></div>
+  </div></div>
+  {variant === 'home' ? (
+    <>
+      <div class="card c-edit"><b>Reel edit</b><small>Captions · Sound · Cuts</small><div class="tl"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="card c-chat"><div class="row"><span class="ok"><Icon name="check" /></span><div><b>New enquiry booked</b><small>WhatsApp assistant</small></div></div></div>
+      <div class="card c-bars"><b>Enquiries this month</b><small>Lead tracking</small><div class="bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:40%"></i><i style="height:62%"></i><i style="height:78%"></i><i style="height:100%"></i></div></div>
+    </>
+  ) : (
+    <>
+      <div class="card c-edit"><b>Concept approved</b><small>Script · Storyboard</small><div class="tl"><i></i><i></i><i></i><i></i><i></i></div></div>
+      <div class="card c-chat"><div class="row"><span class="ok"><Icon name="check" /></span><div><b>Ready to upload</b><small>9:16 · 1:1 · 4:5</small></div></div></div>
+    </>
+  )}
+  <span class="ex">Illustration</span>
+</div>

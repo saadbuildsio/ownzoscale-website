@@ -1,0 +1,22 @@
+---
+import { services } from '../data/services';
+import { nav } from '../data/site';
+const path = Astro.url.pathname;
+---
+<header class="wrap nav">
+  <a class="logo" href="/" aria-label="OwnzoScale home"><img src="/logo-dark.svg" alt="ownzo scale" width="203" height="30" /></a>
+  <nav aria-label="Main">
+    <ul class="menu" id="site-menu">
+      <li class="has-drop">
+        <a href="/services" aria-current={path.startsWith('/services') ? 'page' : undefined}>Services<span class="caret" aria-hidden="true">▾</span></a>
+        <ul class="drop">
+          {services.map((s) => <li><a href={`/services/${s.slug}`}>{s.name}</a></li>)}
+        </ul>
+      </li>
+      {nav.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+      <li class="menu-cta"><a class="btn btn-p" href="/contact">Discuss Your Project</a></li>
+    </ul>
+  </nav>
+  <a class="btn btn-p btn-sm head-cta" href="/contact">Discuss Your Project</a>
+  <button class="menu-btn" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
+</header>

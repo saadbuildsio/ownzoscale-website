@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroVisual from '../components/HeroVisual.astro';
+import Icon from '../components/Icon.astro';
+import CTABox from '../components/CTABox.astro';
+import SectionHead from '../components/SectionHead.astro';
+import { services } from '../data/services';
+
+const steps = [
+  { icon: 'talk', title: 'Tell us about your business', text: "Share what's working and what isn't." },
+  { icon: 'plan', title: 'Get a clear plan and price', text: 'A fixed price and timeline before we start.' },
+  { icon: 'build', title: 'We build, you approve', text: 'Nothing goes live without your OK.' },
+  { icon: 'grow', title: 'Launch and improve', text: 'We deliver and keep improving what works.' },
+];
+const promises = [
+  { icon: 'own', title: 'You own everything', text: 'Videos, websites and automations are yours once paid for. Accounts are set up in your name.' },
+  { icon: 'price', title: 'Clear prices, upfront', text: 'You know the cost and timeline before any work begins.' },
+  { icon: 'honest', title: 'Honest advice', text: "If something won't help your business, we'll tell you." },
+  { icon: 'rev', title: 'Revisions on ads', text: 'Every ad includes up to 2 rounds of changes.' },
+];
+const faqs = [
+  ['What does OwnzoScale do?', 'We help businesses get more customers. We make AI video ads and product visuals, edit short-form videos, set up AI assistants and automations, run lead campaigns on Meta and Google, and build websites.'],
+  ['Do I have to buy a package?', "No. You can hire us for one service or combine a few. We'll recommend only what makes sense for your business."],
+  ['Where are you based? Do you work with clients abroad?', "We're based in Pakistan and work with businesses in any country. Everything is handled online."],
+  ['How much does it cost?', 'Each service has clear starting prices on our Pricing page. After a short chat we give you a fixed quote before any work starts.'],
+  ['How do we get started?', "Tell us about your project using the form, or book a strategy call. We'll get back to you within 1 business day with next steps."],
+];
+---
+<BaseLayout
+  title="OwnzoScale | AI Ads, Video Editing, Automation & Websites"
+  description="OwnzoScale makes AI video ads, edits short-form videos, builds automations and websites, and runs lead campaigns for businesses that want more customers."
+>
+  <div slot="hero" class="wrap hero-grid">
+    <div>
+      <span class="pill">AI Creative &amp; Growth Agency</span>
+      <h1>Ads, videos, automations and websites that <em>bring you customers.</em></h1>
+      <p class="sub">We make scroll-stopping ads and videos, set up AI that replies to your leads in seconds, and build websites that turn visitors into enquiries. We start by understanding your business, then do only what will make a real difference.</p>
+      <div class="ctas"><a class="btn btn-p" href="/contact">Discuss Your Project <Icon name="arrow" /></a><a class="btn btn-s" href="/book-a-call">Book a Strategy Call</a></div>
+      <div class="trust"><span><Icon name="check" />You own everything we make</span><span><Icon name="check" />Clear prices</span><span><Icon name="check" />No pressure to buy more</span></div>
+    </div>
+    <HeroVisual />
+  </div>
+
+  <div class="svc-wrap" id="services"><div class="wrap"><div class="svc-row">
+    {services.map((s) => (
+      <a class:list={['svc', 'cc', { flag: s.flagship }]} href={`/services/${s.slug}`}>
+        {s.flagship && <span class="flagtag">Flagship</span>}
+        <span class="ic"><Icon name={s.icon as any} /></span>
+        <h3>{s.name}</h3><p>{s.short}</p>
+        <span class="more">Learn more <Icon name="arrow" /></span>
+      </a>
+    ))}
+  </div></div></div>
+
+  <section class="sec"><div class="wrap intro">
+    <div>
+      <h2>You don't need more services. You need the right ones.</h2>
+      <p>Most businesses aren't short on marketing options. They're short on time, and tired of paying for things that don't move the needle.</p>
+      <p>First we look at where you're losing customers or time. Then we recommend what will actually help, whether that's better ads, faster replies, or a website that finally works. Nothing extra.</p>
+    </div>
+    <div class="quote">"We're not here to sell you everything. We're here to build <span>what your business needs.</span>"<small>Saad, Founder of OwnzoScale</small></div>
+  </div></section>
+
+  <section class="sec" style="padding-top:0"><div class="wrap">
+    <div class="two">
+      <div>
+        <span class="flagtag">Our flagship service</span>
+        <h2 style="margin-top:10px">Ads that look expensive. Without the expensive shoot.</h2>
+        <p>A traditional commercial means a studio, a crew, actors and weeks of waiting. We create the same polished look with AI, so you can launch faster, test more ideas, and keep your ads fresh.</p>
+        <div class="ctas"><a class="btn btn-p" href="/services/ai-ads">Explore AI Ads <Icon name="arrow" /></a></div>
+      </div>
+      <div class="lb cc"><h3>What we make</h3><ul>
+        {services[0].subs.map((x) => <li><Icon name="check" /><span>{x}</span></li>)}
+      </ul></div>
+    </div>
+  </div></section>
+
+  <section class="sec" style="padding-top:0"><div class="wrap">
+    <SectionHead title="Simple from the first message." />
+    <ol class="proc">{steps.map((s) => <li><span class="ci"><Icon name={s.icon as any} /></span><div><h3>{s.title}</h3><p>{s.text}</p></div></li>)}</ol>
+  </div></section>
+
+  <section class="band sec"><div class="wrap">
+    <SectionHead title="What you can expect from us" text="The things clients worry about most, answered upfront." />
+    <div class="band-grid">{promises.map((p) => <div class="bc"><Icon name={p.icon as any} /><h3>{p.title}</h3><p>{p.text}</p></div>)}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <SectionHead title="Built for businesses that want more customers" text="Product brands, online stores, clinics, real estate agents, coaches and consultants, home service companies, creators and growing businesses of every kind. If you sell something and want more people to buy it, we can help." />
+  </div></section>
+
+  <section class="sec" style="padding-top:0;background:var(--white)"><div class="wrap">
+    <SectionHead title="Questions we hear a lot" />
+    <div class="faq">{faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
+  </div></section>
+
+  <CTABox title="Let's find what will make the biggest difference for your business." text="Tell us what you're working on. We'll reply with honest advice and a clear next step." />
+</BaseLayout>

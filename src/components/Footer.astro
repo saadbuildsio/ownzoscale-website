@@ -1,0 +1,21 @@
+---
+import { site, whatsappLink } from '../data/site';
+import { services } from '../data/services';
+import Icon from './Icon.astro';
+const socials = Object.entries(site.social).filter(([, url]) => url);
+---
+<footer>
+  <div class="wrap ft-grid">
+    <div class="ft-brand">
+      <a class="logo" href="/"><img src="/logo-light.svg" alt="ownzo scale" width="203" height="30" /></a>
+      <p>{site.tagline}</p>
+      <span class="mail"><Icon name="mail" />{site.email}</span>
+      <a class="ft-wa" href={whatsappLink} target="_blank" rel="noopener">WhatsApp: +92 311 0020911</a>
+      {socials.length > 0 && <div class="socials">{socials.map(([k, url]) => <a href={url} target="_blank" rel="noopener">{k}</a>)}</div>}
+    </div>
+    <div><h3>Services</h3><ul>{services.map((s) => <li><a href={`/services/${s.slug}`}>{s.name}</a></li>)}</ul></div>
+    <div><h3>Company</h3><ul><li><a href="/about">About</a></li><li><a href="/work">Work</a></li><li><a href="/pricing">Pricing</a></li><li><a href="/contact">Contact</a></li><li><a href="/book-a-call">Book a Strategy Call</a></li></ul></div>
+    <div><h3>Legal</h3><ul><li><a href="/privacy-policy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><button type="button" class="linkbtn" data-cookie-settings>Cookie settings</button></li></ul></div>
+  </div>
+  <div class="wrap fb"><span>© {new Date().getFullYear()} OwnzoScale · {site.location}</span><span><b>{site.tagline}</b></span></div>
+</footer>
