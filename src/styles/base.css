@@ -20,7 +20,7 @@ p{margin:0}
 .b-amber .btn-p{background:var(--amber);color:var(--ink);box-shadow:0 10px 24px -12px rgba(255,170,20,.9)}
 .b-cobalt .btn-p{background:var(--cobalt);color:#fff;box-shadow:0 10px 24px -12px rgba(45,91,255,.9)}
 .btn-s{border-color:rgba(45,91,255,.45);color:var(--ink);background:rgba(255,255,255,.7)}
-.h-dark .btn-s{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}
+.h-dark .hero .btn-s,.band .btn-s{border-color:rgba(255,255,255,.35);color:#fff;background:transparent}
 .btn-sm{padding:11px 20px;font-size:.9rem}
 /* header + hero */
 .hero{position:relative;overflow:hidden}

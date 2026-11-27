@@ -5,7 +5,7 @@
 .btn-p .rp{background:rgba(255,255,255,.7)}
 @keyframes rp{to{transform:scale(4);opacity:0}}
 .b-amber .btn-p:hover{box-shadow:0 0 0 6px rgba(255,178,36,.18),0 14px 30px -10px rgba(255,170,20,.95)}
-.h-dark .btn-s:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.7)}
+.h-dark .hero .btn-s:hover,.band .btn-s:hover,.ctab .btn-s:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.7)}
 .btn-s:hover{border-color:var(--cobalt)}
 .hero .ctas .btn-p{animation:glow 2.8s ease-in-out infinite}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(255,178,36,.55),0 10px 24px -12px rgba(255,170,20,.9)}55%{box-shadow:0 0 0 14px rgba(255,178,36,0),0 10px 24px -12px rgba(255,170,20,.9)}}

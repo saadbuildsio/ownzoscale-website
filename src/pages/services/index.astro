@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import CTABox from '../../components/CTABox.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import { services } from '../../data/services';
+
+const blocks: Record<string, { problem: string; what: string; who: string; btn: string }> = {
+  'ai-ads': { problem: 'Good ads cost a lot to film, and they get old fast.', what: 'We create commercial-quality video ads and product photos with AI.', who: 'Product brands, online stores, any business running ads.', btn: 'View AI Ads' },
+  'short-form-video-editing': { problem: "You have footage, but no time to turn it into videos people watch.", what: 'We edit your raw clips into polished Reels, TikToks and Shorts.', who: 'Businesses, creators, coaches, brands and agencies.', btn: 'View Video Editing' },
+  'ai-automation': { problem: 'Messages wait for hours, leads go cold, and admin eats your day.', what: 'We set up assistants and workflows that reply, qualify, book and update your records.', who: 'Any business that gets enquiries or books appointments.', btn: 'View Automation' },
+  'lead-generation': { problem: "Leads come in waves, and past ad spend didn't pay off.", what: 'We plan, run and track Meta and Google campaigns built for enquiries.', who: 'Service businesses that want more calls and bookings.', btn: 'View Lead Generation' },
+  'website-development': { problem: "Your website is slow, unclear, or doesn't bring enquiries.", what: 'We build fast, clear websites, landing pages and online stores.', who: 'Any business that needs to look credible online.', btn: 'View Websites' },
+};
+---
+<BaseLayout
+  title="Services | AI Ads, Video Editing, Automation, Leads & Websites | OwnzoScale"
+  description="Explore OwnzoScale's five services: AI ads, short-form video editing, AI automation, lead generation and website development. Hire one or combine them."
+>
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Our services</span>
+    <h1>Five services. One goal: <em>more customers for your business.</em></h1>
+    <p class="sub">Pick the service you need, or tell us your goal and we'll recommend the right mix. Every service can be hired on its own.</p>
+  </div>
+
+  <section class="sec"><div class="wrap sv-list">
+    {services.map((s) => { const b = blocks[s.slug]; return (
+      <article class:list={['sv', 'cc', { flag: s.flagship }]}>
+        <div class="sv-top">
+          <span class="ic"><Icon name={s.icon as any} /></span>
+          <div><h2>{s.name}</h2>{s.flagship && <span class="flagtag">Flagship</span>}</div>
+        </div>
+        <dl>
+          <div><dt>The problem</dt><dd>{b.problem}</dd></div>
+          <div><dt>What we do</dt><dd>{b.what}</dd></div>
+          <div><dt>Who it's for</dt><dd>{b.who}</dd></div>
+        </dl>
+        <ul class="sv-subs">{s.subs.map((x) => <li>{x}</li>)}</ul>
+        <a class="btn btn-s sv-btn" href={`/services/${s.slug}`}>{b.btn} <Icon name="arrow" /></a>
+      </article>
+    ); })}
+  </div></section>
+
+  <section class="band sec"><div class="wrap qual">
+    <div>
+      <h2>Services work better together</h2>
+      <p>An ad is only as good as the page it sends people to. A lead is only worth something if someone replies quickly.</p>
+      <p>That's why many clients combine services, for example ads with a landing page, or lead campaigns with an AI assistant that replies instantly. Tell us your goal and we'll suggest the simplest setup that works. No bundles you don't need.</p>
+      <div class="ctas"><a class="btn btn-p" href="/contact?service=not-sure">Get a Recommendation <Icon name="arrow" /></a></div>
+    </div>
+    <ul class="chk">
+      <li><span><Icon name="check" /></span>AI ads + a landing page</li>
+      <li><span><Icon name="check" /></span>Lead campaigns + an instant-reply assistant</li>
+      <li><span><Icon name="check" /></span>Video editing + ads from your best clips</li>
+      <li><span><Icon name="check" /></span>A new website + an assistant that answers visitors</li>
+    </ul>
+  </div></section>
+
+  <CTABox title="Not sure where to start?" text="Tell us about your business and we'll point you in the right direction." secondary={{ label: 'View Pricing', href: '/pricing' }} />
+</BaseLayout>

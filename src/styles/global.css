@@ -62,3 +62,6 @@
 .nav .drop{display:block}
 .ft-brand .mail{display:inline-flex;align-items:center;gap:8px;font-size:.92rem}
 .ft-brand .mail svg{width:18px;height:18px;flex:none;color:var(--cobalt)}
+.wrap.page-hero{max-width:1200px}
+.page-hero > *{max-width:780px}
+.band + .ctab{margin-top:70px}
