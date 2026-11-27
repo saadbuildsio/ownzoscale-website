@@ -21,3 +21,10 @@ export const nav = [
   { label: 'Pricing', href: '/pricing' },
   { label: 'About', href: '/about' },
 ];
+
+// Answers still to be confirmed by Saad. Shown on the site as written here; change them in one place.
+export const terms = {
+  replyTime: 'within 1 business day',
+  payment: 'Projects: 50% upfront and 50% on delivery. Monthly plans: paid at the start of each month.',
+  cancellation: 'Yes. Monthly plans can be cancelled with 30 days’ notice.',
+};

@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { services } from '../data/services';
+import { site, whatsappLink, terms } from '../data/site';
+const budgets = ['Under $500', '$500–$1,000', '$1,000–$2,500', '$2,500–$5,000', '$5,000+', 'Not sure yet'];
+---
+<BaseLayout title="Contact OwnzoScale | Discuss Your Project" description="Tell us about your project. Share what you need and we'll reply with honest advice and a clear next step.">
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Discuss your project</span>
+    <h1>Tell us about <em>your project.</em></h1>
+    <p class="sub">Fill in the form and we'll get back to you {terms.replyTime} with honest advice and a clear next step. No pressure, no long sales calls.</p>
+  </div>
+
+  <section class="sec"><div class="wrap form-grid">
+    <form class="oz-form" name="enquiry" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="enquiry" />
+      <input type="hidden" name="subject" value="New enquiry from the OwnzoScale website" />
+      <input type="hidden" name="tier" value="" />
+      <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+      <div class="row2">
+        <div class="field"><label for="f-name">Your name</label><input id="f-name" name="name" type="text" autocomplete="name" required data-msg="Please add your name." /></div>
+        <div class="field"><label for="f-email">Email address</label><input id="f-email" name="email" type="email" autocomplete="email" required data-msg="Please add your email so we can reply." /></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="f-biz">Business name</label><input id="f-biz" name="business" type="text" autocomplete="organization" required data-msg="Please add your business name." /></div>
+        <div class="field"><label for="f-web">Website or social link <span class="opt">(optional)</span></label><input id="f-web" name="website" type="text" inputmode="url" placeholder="yourbusiness.com" /></div>
+      </div>
+
+      <fieldset class="field" data-group="services" data-msg="Please pick at least one option, or choose Not sure yet.">
+        <legend>What do you need help with?</legend>
+        <div class="checks">
+          {services.map((s) => <label class="ck"><input type="checkbox" name="services" value={s.name} data-slug={s.slug} /><span>{s.name}</span></label>)}
+          <label class="ck"><input type="checkbox" name="services" value="Not sure yet" data-slug="not-sure" /><span>Not sure yet</span></label>
+        </div>
+      </fieldset>
+
+      <div class="row2">
+        <div class="field"><label for="f-budget">Rough budget (USD) <span class="opt">(optional)</span></label>
+          <select id="f-budget" name="budget"><option value="">Choose one</option>{budgets.map((b) => <option>{b}</option>)}</select></div>
+        <fieldset class="field"><legend>How should we reach you? <span class="opt">(optional)</span></legend>
+          <div class="radios">{['Email', 'WhatsApp', 'Video call'].map((x) => <label class="ck"><input type="radio" name="contact_preference" value={x} /><span>{x}</span></label>)}</div>
+        </fieldset>
+      </div>
+
+      <div class="field"><label for="f-details">Tell us a bit about your project</label>
+        <textarea id="f-details" name="details" rows="6" required data-msg="Please tell us a little about your project." placeholder="What are you selling, what's not working right now, and what would success look like?"></textarea></div>
+
+      <div class="form-error" role="alert" hidden>Something went wrong and your message wasn't sent. Please try again, or <a href={whatsappLink} target="_blank" rel="noopener">message us on WhatsApp</a>.</div>
+      <button class="btn btn-p" type="submit">Send My Enquiry <Icon name="arrow" /></button>
+      <p class="small">We'll only use your details to reply to your enquiry. See our <a href="/privacy-policy">Privacy Policy</a>.</p>
+    </form>
+
+    <aside class="form-side">
+      <div class="lb"><h3>What happens next</h3>
+        <ol class="next">
+          <li>We read your message and look at your business.</li>
+          <li>We reply with questions or a recommendation.</li>
+          <li>If it's a fit, you get a clear plan, price and timeline.</li>
+        </ol>
+      </div>
+      <div class="lb"><h3>Other ways to reach us</h3>
+        <ul>
+          <li><Icon name="mail" /><span>{site.email}</span></li>
+          <li><Icon name="wa" /><a href={whatsappLink} target="_blank" rel="noopener">WhatsApp: +92 311 0020911</a></li>
+          <li><Icon name="talk" /><a href="/book-a-call">Prefer to talk? Book a Strategy Call</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div></section>
+</BaseLayout>
+<script>import '../scripts/forms.js';</script>

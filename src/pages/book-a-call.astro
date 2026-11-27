@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { whatsappLink } from '../data/site';
+---
+<BaseLayout title="Book a Strategy Call | OwnzoScale" description="Book a strategy call with OwnzoScale to talk through your goals and find what will make the biggest difference for your business.">
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Strategy call</span>
+    <h1>Let's talk about <em>your business.</em></h1>
+    <p class="sub">On the call we'll look at where you're losing customers or time, and talk through what could help. You'll leave with clear next steps, whether you work with us or not.</p>
+  </div>
+
+  <section class="sec"><div class="wrap form-grid">
+    <form class="oz-form" name="call-request" method="POST" action="/thank-you" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+      <input type="hidden" name="form-name" value="call-request" />
+      <input type="hidden" name="subject" value="New call request from the OwnzoScale website" />
+      <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+      <h2 class="form-title">Request a call</h2>
+      <p class="small" style="margin-top:-6px">Pick the times that suit you and we'll confirm one by email.</p>
+      <div class="row2">
+        <div class="field"><label for="c-name">Your name</label><input id="c-name" name="name" type="text" autocomplete="name" required data-msg="Please add your name." /></div>
+        <div class="field"><label for="c-email">Email address</label><input id="c-email" name="email" type="email" autocomplete="email" required data-msg="Please add your email so we can confirm the call." /></div>
+      </div>
+      <div class="field"><label for="c-biz">Business name</label><input id="c-biz" name="business" type="text" autocomplete="organization" required data-msg="Please add your business name." /></div>
+      <div class="row2">
+        <div class="field"><label for="c-times">Best days and times</label><input id="c-times" name="best_times" type="text" placeholder="e.g. Tue or Wed afternoon" required data-msg="Please tell us when suits you." /></div>
+        <div class="field"><label for="c-tz">Your time zone</label><input id="c-tz" name="time_zone" type="text" placeholder="e.g. New York, London, Dubai" required data-msg="Please add your time zone." /></div>
+      </div>
+      <div class="field"><label for="c-topic">What would you like to discuss?</label><textarea id="c-topic" name="topic" rows="5" required data-msg="Please add a line about what you'd like to discuss."></textarea></div>
+      <div class="form-error" role="alert" hidden>Something went wrong and your request wasn't sent. Please try again, or <a href={whatsappLink} target="_blank" rel="noopener">message us on WhatsApp</a>.</div>
+      <button class="btn btn-p" type="submit">Request My Call <Icon name="arrow" /></button>
+      <p class="small">We'll only use your details to arrange the call. See our <a href="/privacy-policy">Privacy Policy</a>.</p>
+    </form>
+    <aside class="form-side">
+      <div class="lb"><h3>What we'll cover</h3><ul>
+        {['What your business does and who you sell to', "What's working and what isn't right now", 'Which of our services (if any) would help most', 'Rough price and timeline'].map((x) => <li><Icon name="check" /><span>{x}</span></li>)}
+      </ul></div>
+      <div class="lb"><h3>Before the call</h3><p>Have your website or social links handy, plus any ads or videos you're running now.</p></div>
+      <p class="small">Prefer to write it down? <a href="/contact">Discuss Your Project</a></p>
+    </aside>
+  </div></section>
+</BaseLayout>
+<script>import '../scripts/forms.js';</script>

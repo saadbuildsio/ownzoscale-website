@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CTABox from '../components/CTABox.astro';
+import SectionHead from '../components/SectionHead.astro';
+import PricingTiers from '../components/PricingTiers.astro';
+import { pricing } from '../data/pricing';
+import { services } from '../data/services';
+import { terms } from '../data/site';
+const nameOf = (slug: string) => services.find((s) => s.slug === slug)!.name;
+const faqs: [string, string][] = [
+  ['Why do prices say "From"?', 'Every business is different. The price shows where each option starts; your quote is based on exactly what you need.'],
+  ['Can I combine services?', "Yes. Tell us your goal and we'll put together a single quote."],
+  ['How do payments work?', terms.payment],
+  ['Can I cancel a monthly plan?', terms.cancellation],
+];
+---
+<BaseLayout title="Pricing | OwnzoScale" description="Clear starting prices for AI ads, short-form video editing, AI automation, lead generation and website development. Fixed quotes before any work starts.">
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Pricing</span>
+    <h1>Clear prices. <em>No surprises.</em></h1>
+    <p class="sub">Every service has three options so you can start where it makes sense. Prices are in USD and show where each option starts. After a quick chat, you get a fixed quote before any work begins.</p>
+  </div>
+
+  <section class="sec" style="background:var(--mist)"><div class="wrap">
+    <div class="ptabs" role="tablist" aria-label="Choose a service">
+      {pricing.map((p, i) => <a role="tab" href={`#${p.service}`} aria-selected={i === 0 ? 'true' : 'false'} data-tab={p.service}>{p.label}</a>)}
+    </div>
+    {pricing.map((p) => (
+      <div class="ppanel" id={p.service} role="tabpanel">
+        <div class="ppanel-head"><h2>{nameOf(p.service)}</h2><a href={`/services/${p.service}`}>See what's included <Icon name="arrow" /></a></div>
+        <PricingTiers set={p} />
+      </div>
+    ))}
+  </div></section>
+
+  <section class="sec"><div class="wrap two">
+    <div>
+      <h2>What affects the price</h2>
+      <p>The number of deliverables, the complexity of the work, how fast you need it, and whether you combine services. Combining services often costs less than hiring them separately.</p>
+    </div>
+    <div class="lb cc"><h3>Good to know</h3><ul>
+      {['Ad spend (paid to Meta or Google) is separate from our fee.', 'Some automations use software with small monthly fees, paid by you directly. We explain these upfront.', 'Every ad includes up to 2 revision rounds.', 'You own everything once paid for.', terms.payment].map((x) => <li><Icon name="check" /><span>{x}</span></li>)}
+    </ul></div>
+  </div></section>
+
+  <section class="sec" style="padding-top:0"><div class="wrap">
+    <SectionHead title="Questions about pricing" />
+    <div class="faq">{faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
+  </div></section>
+
+  <CTABox title="Not sure which option fits?" text="Tell us what you need and we'll recommend the right one, even if it's the smallest." />
+</BaseLayout>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLAnchorElement>('.ptabs [data-tab]');
+  const panels = document.querySelectorAll<HTMLElement>('.ppanel');
+  const show = (id: string, scroll = false) => {
+    if (!document.getElementById(id)) id = tabs[0].dataset.tab!;
+    tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.tab === id)));
+    panels.forEach((p) => (p.hidden = p.id !== id));
+    if (scroll) document.querySelector('.ptabs')?.scrollIntoView({ block: 'nearest' });
+  };
+  document.documentElement.classList.add('js-tabs');
+  tabs.forEach((t) => t.addEventListener('click', (e) => { e.preventDefault(); show(t.dataset.tab!); history.replaceState(null, '', '#' + t.dataset.tab); }));
+  show(location.hash.slice(1));
+</script>

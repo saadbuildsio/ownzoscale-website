@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { whatsappLink, terms } from '../data/site';
+---
+<BaseLayout title="Thank You | OwnzoScale" description="Thanks for contacting OwnzoScale." noindex hideWhatsApp>
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Message received</span>
+    <h1>Thanks, we've got <em>your message.</em></h1>
+    <p class="sub">We'll read it properly and get back to you by email {terms.replyTime}. If it's urgent, you can also message us on WhatsApp.</p>
+    <div class="ctas"><a class="btn btn-p" href={whatsappLink} target="_blank" rel="noopener">Message us on WhatsApp <Icon name="arrow" /></a></div>
+  </div>
+  <section class="sec"><div class="wrap">
+    <h2 class="ty-h">While you wait</h2>
+    <div class="rel">
+      <a class="cc" href="/services"><span class="ic"><Icon name="plan" /></span><span><b>View our Services</b><small>See what each service includes.</small></span></a>
+      <a class="cc" href="/work"><span class="ic"><Icon name="grow" /></span><span><b>See our Work</b><small>Projects appear here as they're completed.</small></span></a>
+    </div>
+  </div></section>
+</BaseLayout>
