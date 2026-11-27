@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroVisual from '../../components/HeroVisual.astro';
+import Icon from '../../components/Icon.astro';
+import CTABox from '../../components/CTABox.astro';
+import SectionHead from '../../components/SectionHead.astro';
+import PricingTiers from '../../components/PricingTiers.astro';
+import { servicePages } from '../../data/serviceContent';
+import { services } from '../../data/services';
+import { priceFor } from '../../data/pricing';
+
+export function getStaticPaths() {
+  return servicePages.map((p) => ({ params: { slug: p.slug }, props: { page: p } }));
+}
+const { page: p } = Astro.props;
+const svc = services.find((s) => s.slug === p.slug)!;
+const prices = priceFor(p.slug);
+const svcByslug = (slug: string) => services.find((s) => s.slug === slug)!;
+const faqLd = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: p.faqs.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+};
+const serviceLd = {
+  '@context': 'https://schema.org', '@type': 'Service', name: svc.name, description: p.description,
+  provider: { '@type': 'Organization', name: 'OwnzoScale', url: 'https://ownzoscale.com' }, areaServed: 'Worldwide',
+};
+---
+<BaseLayout title={p.seoTitle} description={p.description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(serviceLd)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </Fragment>
+  <div slot="hero" class="wrap hero-grid">
+    <div>
+      <nav class="crumb" aria-label="Breadcrumb"><a href="/services">Services</a> / {svc.name}</nav>
+      <span class="pill">{p.pill ?? svc.name}</span>
+      <h1>{p.h1[0]} <em>{p.h1[1]}</em></h1>
+      <p class="sub">{p.sub}</p>
+      <div class="ctas">
+        <a class="btn btn-p" href={p.primary.href}>{p.primary.label} <Icon name="arrow" /></a>
+        <a class="btn btn-s" href={p.secondary.href}>{p.secondary.label}</a>
+      </div>
+      {p.formats && <div class="fmt">{p.formats.map((f) => <span>{f}</span>)}</div>}
+    </div>
+    <HeroVisual tag={p.visual.tag} cards={p.visual.cards} label={p.visual.label} />
+  </div>
+
+  <section class="sec"><div class="wrap two">
+    <div><h2>{p.problem.heading}</h2>{p.problem.paras.map((t) => <p>{t}</p>)}</div>
+    {p.compare ? (
+      <div class="cmp"><table>
+        <thead><tr><th><span class="sr-only">Compared</span></th><th>{p.compare.cols[0]}</th><th>{p.compare.cols[1]}</th></tr></thead>
+        <tbody>{p.compare.rows.map((r) => <tr><td>{r[0]}</td><td>{r[1]}</td><td>{r[2]}</td></tr>)}</tbody>
+      </table></div>
+    ) : p.aside && (
+      <div class="lb cc"><h3>{p.aside.title}</h3><ul>{p.aside.items.map((x) => <li><Icon name="check" /><span>{x}</span></li>)}</ul></div>
+    )}
+  </div></section>
+
+  <section class="sec" style="padding-top:0"><div class="wrap">
+    <SectionHead title={p.items.heading} text={p.items.intro} />
+    <div class="g2">{p.items.cards.map((c) => (
+      <div class="mk cc" tabindex="0"><span class="ic"><Icon name={c.icon as any} /></span><h3>{c.title}</h3><p>{c.text}</p>{c.use && <p class="use">Best for: <span>{c.use}</span></p>}</div>
+    ))}</div>
+  </div></section>
+
+  {p.examples && (
+    <section class="sec" style="padding-top:0"><div class="wrap">
+      <SectionHead title={p.examples.heading} text={p.examples.intro} />
+      <div class="lb"><ul>{p.examples.items.map((x) => <li><Icon name="check" /><span>{x}</span></li>)}</ul></div>
+      <p class="draft">{p.examples.note}</p>
+    </div></section>
+  )}
+
+  {p.band && (
+    <section class="band sec"><div class="wrap qual">
+      <div><h2>{p.band.heading}</h2>{p.band.paras.map((t) => <p>{t}</p>)}</div>
+      <ul class="chk">{p.band.checks.map((x) => <li><span><Icon name="check" /></span>{x}</li>)}</ul>
+    </div></section>
+  )}
+
+  <section class="sec"><div class="wrap">
+    <SectionHead title={p.steps.heading} text={p.steps.intro} />
+    <ol class="steps">{p.steps.list.map(([t, d]) => <li><h3>{t}</h3><p>{d}</p></li>)}</ol>
+  </div></section>
+
+  <section class="sec" style="padding-top:0"><div class="wrap lists">
+    <div class="lb cc"><h3>{p.goodFor.title}</h3><ul>{p.goodFor.items.map((x) => <li><Icon name="check" /><span>{x}</span></li>)}</ul></div>
+    <div class="lb cc"><h3>What you receive</h3><ul>{p.receive.map((x) => <li><Icon name="check" /><span>{x}</span></li>)}</ul></div>
+  </div></section>
+
+  {p.notes && (
+    <section class="sec" style="padding-top:0"><div class="wrap notes">
+      {p.notes.map((n) => <div class="note"><h3>{n.heading}</h3><p>{n.text}</p></div>)}
+    </div></section>
+  )}
+
+  <section class="sec" id="pricing" style="background:var(--mist)"><div class="wrap">
+    <SectionHead title="Pricing" text="Clear starting prices. You get a fixed quote before any work begins." />
+    <PricingTiers set={prices} />
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <SectionHead title={p.faqHeading} />
+    <div class="faq">{p.faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</div>
+  </div></section>
+
+  <section class="sec" style="padding-top:0"><div class="wrap">
+    <SectionHead title="Works well with" />
+    <div class="rel">{p.related.map((r) => { const s = svcByslug(r.slug); return (
+      <a class="cc" href={`/services/${s.slug}`}><span class="ic"><Icon name={s.icon as any} /></span><span><b>{s.name}</b><small>{r.text}</small></span></a>
+    ); })}</div>
+  </div></section>
+
+  <CTABox title={p.cta.heading} text={p.cta.text} primary={p.cta.primary} secondary={{ label: 'View Pricing', href: '/pricing' }} />
+</BaseLayout>
