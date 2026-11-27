@@ -149,3 +149,29 @@
 .ty-h{font-size:1.5rem;font-weight:800;margin-bottom:24px}
 @media (max-width:900px){.form-grid{grid-template-columns:1fr}}
 @media (max-width:640px){.row2,.checks{grid-template-columns:1fr}.oz-form{padding:24px}}
+.founder{border:1px solid var(--line);border-radius:22px;padding:30px;background:#fff;display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:start;box-shadow:0 18px 40px -30px rgba(11,16,32,.35)}
+.founder .photo{width:120px;height:120px;border-radius:20px;background:linear-gradient(135deg,#0B1020,#2D5BFF);display:grid;place-items:center;color:#fff;font-family:var(--f-head);font-weight:800;font-size:2.6rem}
+.founder h3{font-size:1.3rem;font-weight:800}
+.founder .role{color:var(--cobalt);font-weight:600;font-size:.92rem;margin:2px 0 10px}
+.founder p{color:var(--text2)}
+.empty{max-width:680px;margin:0 auto;text-align:center;border:1.5px dashed var(--line);border-radius:24px;padding:48px 32px;display:grid;gap:14px;justify-items:center}
+.empty .ic{width:56px;height:56px;border-radius:16px;background:rgba(45,91,255,.08);color:var(--cobalt);display:grid;place-items:center}
+.empty .ic svg{width:28px;height:28px}
+.empty h2{font-size:1.6rem;font-weight:800}
+.empty p{color:var(--text2)}
+.empty .ctas{justify-content:center}
+.ptabs button{padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;font:inherit;font-weight:600;font-size:.93rem;cursor:pointer}
+.ptabs button[aria-pressed="true"]{background:#0B1020;color:#fff;border-color:#0B1020}
+.work-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.wk{border:1px solid var(--line);border-radius:20px;padding:26px;background:#fff;display:grid;gap:10px}
+.wk-tag{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--cobalt)}
+.case{max-width:780px}
+.case h2{font-size:1.4rem;font-weight:800;margin-top:28px}
+.case p{color:var(--text2);margin-top:8px}
+@media (max-width:520px){.founder{grid-template-columns:1fr}}
+.legal{max-width:780px}
+.legal h2{font-size:1.3rem;font-weight:800;margin:34px 0 10px}
+.legal p,.legal li{color:var(--text2)}
+.legal ul{padding-left:20px;display:grid;gap:8px}
+.legal b{color:var(--ink)}
+.legal a{color:var(--cobalt);text-decoration:underline}

@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTABox from '../../components/CTABox.astro';
+import { projects } from '../../data/projects';
+import { services } from '../../data/services';
+export function getStaticPaths() { return projects.map((p) => ({ params: { slug: p.slug }, props: { p } })); }
+const { p } = Astro.props;
+const svc = services.find((s) => s.slug === p.service);
+---
+<BaseLayout title={`${p.title} | OwnzoScale Work`} description={p.summary}>
+  <div slot="hero" class="wrap page-hero">
+    <nav class="crumb" aria-label="Breadcrumb"><a href="/work">Work</a> / {p.title}</nav>
+    <span class="pill">{svc?.name}</span>
+    <h1>{p.title}</h1>
+    <p class="sub">{p.kind === 'client' ? 'Client project' : 'Concept project (created by OwnzoScale to show our approach)'}</p>
+  </div>
+  <section class="sec"><div class="wrap case">
+    <h2>The goal</h2><p>{p.goal}</p>
+    <h2>The challenge</h2><p>{p.challenge}</p>
+    <h2>What we did</h2><p>{p.whatWeDid}</p>
+    <h2>What we delivered</h2><p>{p.delivered}</p>
+    {p.results && <><h2>Results</h2><p>{p.results}</p></>}
+  </div></section>
+  <CTABox title="Want something similar?" text="Tell us what you're working on and we'll suggest the best approach." />
+</BaseLayout>

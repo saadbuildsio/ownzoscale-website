@@ -30,6 +30,9 @@ const faqs = [
   title="OwnzoScale | AI Ads, Video Editing, Automation & Websites"
   description="OwnzoScale makes AI video ads, edits short-form videos, builds automations and websites, and runs lead campaigns for businesses that want more customers."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: 'OwnzoScale', url: 'https://ownzoscale.com', logo: 'https://ownzoscale.com/android-chrome-512.png', slogan: 'We build what your business actually needs.', founder: { '@type': 'Person', name: 'Saad' } })} />
+  </Fragment>
   <div slot="hero" class="wrap hero-grid">
     <div>
       <span class="pill">AI Creative &amp; Growth Agency</span>
@@ -41,7 +44,7 @@ const faqs = [
     <HeroVisual />
   </div>
 
-  <div class="svc-wrap" id="services"><div class="wrap"><div class="svc-row">
+  <div class="svc-wrap" id="services"><div class="wrap"><h2 class="sr-only">Our services</h2><div class="svc-row">
     {services.map((s) => (
       <a class:list={['svc', 'cc', { flag: s.flagship }]} href={`/services/${s.slug}`}>
         {s.flagship && <span class="flagtag">Flagship</span>}

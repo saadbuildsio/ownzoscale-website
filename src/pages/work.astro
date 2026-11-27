@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CTABox from '../components/CTABox.astro';
+import { services } from '../data/services';
+import { projects } from '../data/projects';
+const labels: Record<string, string> = { 'ai-ads': 'AI Ads', 'short-form-video-editing': 'Video Editing', 'ai-automation': 'Automation', 'lead-generation': 'Lead Generation', 'website-development': 'Websites' };
+---
+<BaseLayout title="Our Work | OwnzoScale" description="AI ads, short-form videos, automations and websites made by OwnzoScale.">
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Our work</span>
+    <h1>Our <em>work.</em></h1>
+    <p class="sub">A look at the ads, videos, systems and websites we make.</p>
+  </div>
+
+  <section class="sec"><div class="wrap">
+    {projects.length > 0 ? (
+      <>
+        <div class="ptabs" role="toolbar" aria-label="Filter projects">
+          <button type="button" aria-pressed="true" data-f="all">All</button>
+          {services.map((s) => <button type="button" aria-pressed="false" data-f={s.slug}>{labels[s.slug]}</button>)}
+        </div>
+        <div class="work-grid">{projects.map((p) => (
+          <a class="wk cc" href={`/work/${p.slug}`} data-s={p.service}>
+            <span class="wk-tag">{p.kind === 'client' ? 'Client project' : 'Concept project'}</span>
+            <h2>{p.title}</h2><p>{p.summary}</p><span class="more">View project <Icon name="arrow" /></span>
+          </a>
+        ))}</div>
+      </>
+    ) : (
+      <div class="empty">
+        <span class="ic"><Icon name="build" /></span>
+        <h2>Our first projects are on their way.</h2>
+        <p>We're a new agency and we'd rather show you real work than fill this page with stock images. Projects will appear here as they're completed. In the meantime, have a look at what each service includes, or tell us about your project.</p>
+        <div class="ctas"><a class="btn btn-s" href="/services">View Services</a><a class="btn btn-p" href="/contact">Discuss Your Project <Icon name="arrow" /></a></div>
+      </div>
+    )}
+  </div></section>
+  <CTABox title="Want something like this for your business?" text="Tell us what you're working on. We'll reply with honest advice and a clear next step." />
+</BaseLayout>
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-f]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    document.querySelectorAll<HTMLElement>('.wk').forEach((c) => (c.hidden = b.dataset.f !== 'all' && c.dataset.s !== b.dataset.f));
+  }));
+</script>
