@@ -23,3 +23,8 @@
   from = "/book-a-call"
   to = "/book-a-consultation"
   status = 301
+
+# Sends the branded enquiry email (netlify/functions/submission-created.mjs)
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
