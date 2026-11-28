@@ -141,7 +141,7 @@
 .oz-form .btn[disabled]{opacity:.7;cursor:progress}
 .small{font-size:.86rem;color:var(--text2)}
 .small a{color:var(--cobalt);text-decoration:underline}
-.hp{position:absolute;left:-9999px}
+.hp{display:none}
 .form-side{display:grid;gap:20px}
 .form-side p{color:var(--text2)}
 .next{margin:0;padding-left:20px;display:grid;gap:10px;color:var(--text2)}

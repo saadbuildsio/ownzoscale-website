@@ -1,0 +1,2 @@
+export const PAGES = ['/', '/services/', '/services/ai-ads/', '/services/short-form-video-editing/', '/services/ai-automation/', '/services/lead-generation/', '/services/website-development/', '/pricing/', '/work/', '/about/', '/contact/', '/book-a-call/', '/thank-you/', '/privacy-policy/', '/terms/'];
+export const skipCookies = async (page) => page.addInitScript(() => localStorage.setItem('oz-cookie-choice', 'decline'));

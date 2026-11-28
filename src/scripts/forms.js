@@ -1,4 +1,6 @@
 // Enquiry and call-request forms: pre-fill from the link, friendly checks, send to Netlify Forms.
+import { fieldError, tierMessage, encodeForm } from './form-utils.js';
+
 const form = document.querySelector('.oz-form');
 if (form) {
   // Pre-fill: /contact?service=ai-ads&tier=ad-pack
@@ -9,8 +11,7 @@ if (form) {
   if (tier && form.tier) {
     form.tier.value = tier;
     const d = form.querySelector('textarea[name="details"]');
-    const nice = tier.replace(/-/g, ' ').replace(/\b\w/g, (m) => m.toUpperCase());
-    if (d && !d.value) d.value = `I'm interested in the ${nice} option.\n\n`;
+    if (d && !d.value) d.value = tierMessage(tier);
   }
 
   const showErr = (el, msg) => {
@@ -27,9 +28,8 @@ if (form) {
     let first = null;
     form.querySelectorAll('[required]').forEach((el) => {
       clearErr(el.closest('.field'));
-      const v = el.value.trim();
-      const bad = !v || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
-      if (bad) { showErr(el, el.type === 'email' && v ? 'Please check your email address.' : el.dataset.msg); first ||= el; }
+      const msg = fieldError(el);
+      if (msg) { showErr(el, msg); first ||= el; }
     });
     const group = form.querySelector('[data-group="services"]');
     if (group) {
@@ -48,12 +48,8 @@ if (form) {
     if (!validate()) return;
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true; btn.dataset.label = btn.innerHTML; btn.textContent = 'Sending…';
-    const data = new FormData(form);
-    // Join ticked services into one line so the email shows all of them.
-    const picked = data.getAll('services');
-    if (picked.length) { data.delete('services'); data.append('services', picked.join(', ')); }
     try {
-      const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+      const res = await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: encodeForm(new FormData(form)) });
       if (!res.ok) throw new Error(String(res.status));
       if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { form_name: form.getAttribute('name') });
       location.href = form.getAttribute('action');

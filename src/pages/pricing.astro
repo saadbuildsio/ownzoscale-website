@@ -64,4 +64,5 @@ const faqs: [string, string][] = [
   document.documentElement.classList.add('js-tabs');
   tabs.forEach((t) => t.addEventListener('click', (e) => { e.preventDefault(); show(t.dataset.tab!); history.replaceState(null, '', '#' + t.dataset.tab); }));
   show(location.hash.slice(1));
+  window.addEventListener('hashchange', () => show(location.hash.slice(1), true));
 </script>

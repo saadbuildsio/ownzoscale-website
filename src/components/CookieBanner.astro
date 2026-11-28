@@ -30,7 +30,8 @@ import { site } from '../data/site';
     banner.addEventListener('click', function (e) {
       var b = e.target.closest('[data-cookie]'); if (!b) return;
       set(b.dataset.cookie); banner.hidden = true;
-      if (b.dataset.cookie === 'accept') loadGA();
+      if (b.dataset.cookie === 'accept') { if (gaId) window['ga-disable-' + gaId] = false; loadGA(); }
+      else if (gaId) window['ga-disable-' + gaId] = true; // stop tracking straight away if someone changes their mind
     });
     document.addEventListener('click', function (e) {
       if (e.target.closest('[data-cookie-settings]')) banner.hidden = false;
