@@ -1,0 +1,64 @@
+---
+import '../styles/base.css';
+import '../styles/sections.css';
+import '../styles/global.css';
+import '../styles/motion.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+  hideWhatsApp?: boolean;
+  ogImage?: string;
+}
+const { title, description, noindex = false, hideWhatsApp = false, ogImage = '/og-default.png' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const og = new URL(ogImage, site.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="OwnzoScale" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={og} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0B1020" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon-180.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" />
+    <slot name="head" />
+  </head>
+  <body class="h-dark b-amber k-grad">
+    <a class="skip" href="#main">Skip to content</a>
+    <section class="hero">
+      <Header />
+      <slot name="hero" />
+    </section>
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    {!hideWhatsApp && <WhatsAppButton />}
+    <CookieBanner />
+    <script>
+      import '../scripts/site.js';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+type Card = { kind: 'edit' | 'chat' | 'bars'; title: string; sub: string };
+interface Props { tag?: { title: string; sub: string }; cards?: Card[]; label?: string }
+const {
+  tag = { title: 'AI Product Commercial', sub: '15 sec · 9:16' },
+  cards = [
+    { kind: 'edit', title: 'Reel edit', sub: 'Captions · Sound · Cuts' },
+    { kind: 'chat', title: 'New enquiry booked', sub: 'WhatsApp assistant' },
+    { kind: 'bars', title: 'Enquiries this month', sub: 'Lead tracking' },
+  ],
+  label = 'Illustration of a video ad on a phone with small cards for editing, bookings and lead tracking',
+} = Astro.props;
+---
+<div class="vis" role="img" aria-label={label}>
+  <div class="ring"></div><div class="sun"></div>
+  <div class="phone"><div class="screen">
+    <div class="tag"><b>{tag.title}</b>{tag.sub}</div>
+    <div class="cap"></div><div class="prod"></div><div class="shadow"></div>
+    <div class="play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l12-7.5z"/></svg></div>
+  </div></div>
+  {cards.map((c) =>
+    c.kind === 'edit' ? <div class="card c-edit"><b>{c.title}</b><small>{c.sub}</small><div class="tl"><i></i><i></i><i></i><i></i><i></i></div></div>
+    : c.kind === 'chat' ? <div class="card c-chat"><div class="row"><span class="ok"><Icon name="check" /></span><div><b>{c.title}</b><small>{c.sub}</small></div></div></div>
+    : <div class="card c-bars"><b>{c.title}</b><small>{c.sub}</small><div class="bars"><i style="height:30%"></i><i style="height:45%"></i><i style="height:40%"></i><i style="height:62%"></i><i style="height:78%"></i><i style="height:100%"></i></div></div>
+  )}
+  <span class="ex">Illustration</span>
+</div>

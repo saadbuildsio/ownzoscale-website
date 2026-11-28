@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import CTABox from '../components/CTABox.astro';
+import SectionHead from '../components/SectionHead.astro';
+const beliefs = [
+  { icon: 'plan', title: 'The right solution beats more services.', text: "We'd rather do one thing that works than five that don't." },
+  { icon: 'talk', title: 'Plain talk.', text: 'You should understand exactly what you are paying for.' },
+  { icon: 'own', title: 'You stay in control.', text: 'You approve the work, and you own what we make.' },
+  { icon: 'honest', title: 'Honest results.', text: "We report what's really happening, good or bad." },
+];
+---
+<BaseLayout title="About OwnzoScale | AI Creative & Growth Agency" description="OwnzoScale is an AI creative and growth agency founded by Saad. We find what will actually help your business, then build it.">
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">About us</span>
+    <h1>We build what your business <em>actually needs.</em></h1>
+    <p class="sub">OwnzoScale is an AI creative and growth agency. We make ads and videos, set up automations, run lead campaigns and build websites for businesses that want more customers and less busywork.</p>
+  </div>
+
+  <section class="sec"><div class="wrap two">
+    <div>
+      <h2>Why we started</h2>
+      <p>Too many business owners pay for marketing they don't understand, from agencies that sell big packages and disappear. Or they juggle three freelancers who never talk to each other.</p>
+      <p>OwnzoScale was started to do it differently: bring the right skills together, be honest about what will help, and build things that make a real difference.</p>
+    </div>
+    <div class="founder cc">
+      <div class="photo" role="img" aria-label="Photo of Saad coming soon"><span>S</span></div>
+      <div>
+        <h3>Saad</h3><p class="role">Founder, OwnzoScale</p>
+        <p>Saad founded OwnzoScale to help businesses use modern tools, including AI, in practical ways that bring real customers. He leads every project personally, from the first call to delivery.</p>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="band sec"><div class="wrap">
+    <SectionHead title="What we believe" />
+    <div class="band-grid">{beliefs.map((b) => <div class="bc"><Icon name={b.icon as any} /><h3>{b.title}</h3><p>{b.text}</p></div>)}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap two">
+    <div><h2>How we work with you</h2><p>We listen first, recommend second, and build third. Every project starts with understanding your business and ends with something you own and can use.</p></div>
+    <div><h2>Where we are</h2><p>Based in Pakistan. Working with businesses around the world, fully online.</p></div>
+  </div></section>
+
+  <CTABox title="Let's talk about your business." text="Tell us what you're working on. We'll reply with honest advice and a clear next step." />
+</BaseLayout>

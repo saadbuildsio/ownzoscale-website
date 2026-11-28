@@ -1,0 +1,20 @@
+---
+import Icon from './Icon.astro';
+import type { PriceSet } from '../data/pricing';
+interface Props { set: PriceSet; }
+const { set } = Astro.props;
+---
+<div class="tiers">
+  {set.tiers.map((t) => (
+    <div class:list={['tier', 'cc', { rec: t.recommended }]}>
+      {t.recommended && <span class="badge">Recommended</span>}
+      <h3>{t.name}</h3>
+      <p class="for">{t.bestFor}</p>
+      <div class="price">{t.price.startsWith('$') ? <><small>From</small>{t.price}{t.per && <small class="per">{t.per}</small>}</> : t.price}</div>
+      <ul>{t.includes.map((x) => <li><Icon name="check" /><span>{x}</span></li>)}</ul>
+      <a class:list={['btn', t.recommended ? 'btn-p' : 'btn-s']} href={`/contact?service=${set.service}&tier=${t.id}`} data-track="discuss_project_click">Get Started</a>
+    </div>
+  ))}
+</div>
+{set.note && <p class="draft">{set.note}</p>}
+<p class="draft">All prices in USD. You get a fixed quote before any work begins.</p>

@@ -1,0 +1,43 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { site, terms } from '../data/site';
+---
+<LegalPage title="Terms of Service | OwnzoScale" h1="Terms of Service" description="The terms for using ownzoscale.com and working with OwnzoScale." updated="27 November 2026">
+  <p>These terms cover your use of ownzoscale.com and the general basis on which OwnzoScale ("we", "us") works with clients. Each project also has a written quote or proposal. If the quote and these terms differ, the quote applies.</p>
+
+  <h2>1. Quotes and scope</h2>
+  <p>Prices on this website are starting prices in US dollars. Before any work begins, we agree a written quote that sets out what we'll deliver, the price and the timeline. Work outside that scope is quoted separately.</p>
+
+  <h2>2. Payments</h2>
+  <p>{terms.payment} Work starts once the first payment is received.</p>
+
+  <h2>3. Monthly plans</h2>
+  <p>Monthly plans (such as video editing and lead generation) continue month to month. {terms.cancellation.replace(/^Yes\. /, '')}</p>
+
+  <h2>4. Revisions</h2>
+  <p>Every ad includes up to 2 rounds of revisions. Revisions for other services are set out in your quote. Changes beyond the agreed rounds, or changes to the original brief, may be charged separately.</p>
+
+  <h2>5. Your responsibilities</h2>
+  <p>You agree to provide the information, materials and access we need, on time, and to review work promptly. You confirm that anything you give us (such as logos, product images, footage and text) is yours to use, or that you have permission to use it.</p>
+
+  <h2>6. Ownership</h2>
+  <p>Once you have paid in full, you own the final deliverables we create for you: videos, images, websites, copy and automations. Accounts we set up for you are created in your name. We may keep using our own general tools, templates and know-how.</p>
+
+  <h2>7. Showing our work</h2>
+  <p>We will only show your project on our website or social media with your permission.</p>
+
+  <h2>8. Ad spend and third-party costs</h2>
+  <p>Advertising budgets are paid by you directly to the ad platform (such as Meta or Google) and are separate from our fee. Some tools and software have their own fees, which you pay directly. We tell you about these before you start.</p>
+
+  <h2>9. No guaranteed results</h2>
+  <p>We work carefully to get you good results, but we cannot guarantee a specific number of leads, sales, views or a search ranking. Results depend on factors outside our control, including your offer, market, budget and how quickly leads are followed up.</p>
+
+  <h2>10. Limitation of liability</h2>
+  <p>To the extent allowed by law, our total liability for any project is limited to the amount you paid us for that project. We are not responsible for indirect losses, such as lost profits, or for problems caused by third-party platforms.</p>
+
+  <h2>11. Using this website</h2>
+  <p>The content on this site is for general information. Please don't copy our content or designs without permission. We may update the site and these terms from time to time.</p>
+
+  <h2>12. Contact</h2>
+  <p>Questions about these terms? Email {site.email}.</p>
+</LegalPage>

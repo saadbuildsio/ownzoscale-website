@@ -1,0 +1,40 @@
+---
+import { site } from '../data/site';
+---
+<div class="cookie" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie choice" hidden>
+  <p>We use cookies to understand how visitors use our site, so we can improve it. <a href="/privacy-policy">Privacy Policy</a></p>
+  <div class="cookie-btns">
+    <button type="button" class="btn btn-s btn-sm" data-cookie="decline">Decline</button>
+    <button type="button" class="btn btn-p btn-sm" data-cookie="accept">Accept</button>
+  </div>
+</div>
+<script is:inline define:vars={{ gaId: site.gaId }}>
+  (function () {
+    var KEY = 'oz-cookie-choice';
+    var banner = document.getElementById('cookie-banner');
+    function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+    function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+    function loadGA() {
+      if (!gaId || window.__gaLoaded) return;
+      window.__gaLoaded = true;
+      var s = document.createElement('script');
+      s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      gtag('js', new Date()); gtag('config', gaId);
+    }
+    var choice = get();
+    if (choice === 'accept') loadGA();
+    else if (!choice) banner.hidden = false;
+    banner.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-cookie]'); if (!b) return;
+      set(b.dataset.cookie); banner.hidden = true;
+      if (b.dataset.cookie === 'accept') { if (gaId) window['ga-disable-' + gaId] = false; loadGA(); }
+      else if (gaId) window['ga-disable-' + gaId] = true; // stop tracking straight away if someone changes their mind
+    });
+    document.addEventListener('click', function (e) {
+      if (e.target.closest('[data-cookie-settings]')) banner.hidden = false;
+    });
+  })();
+</script>

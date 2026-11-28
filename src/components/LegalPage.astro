@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+interface Props { title: string; h1: string; description: string; updated: string }
+const { title, h1, description, updated } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <div slot="hero" class="wrap page-hero">
+    <span class="pill">Legal</span>
+    <h1>{h1}</h1>
+    <p class="sub">Last updated: {updated}</p>
+  </div>
+  <section class="sec"><div class="wrap legal"><slot /></div></section>
+</BaseLayout>
