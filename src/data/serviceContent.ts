@@ -28,7 +28,7 @@ export type ServicePageContent = {
   cta: { heading: string; text: string; primary: Btn };
 };
 
-const call: Btn = { label: 'Book a Strategy Call', href: '/book-a-call' };
+const call: Btn = { label: 'Book a Consultation', href: '/book-a-consultation' };
 const contact = (label: string, slug: string): Btn => ({ label, href: `/contact?service=${slug}` });
 
 export const servicePages: ServicePageContent[] = [
@@ -107,7 +107,7 @@ export const servicePages: ServicePageContent[] = [
     description: 'AI assistants that answer enquiries on WhatsApp and your website, qualify leads and book appointments, plus CRM and workflow automation that saves your team time.',
     h1: ['Never leave an enquiry', 'waiting again.'],
     sub: 'We set up AI assistants that reply to your customers in seconds, ask the right questions and book appointments, plus automations that take repetitive admin off your team.',
-    primary: { label: 'Book a Strategy Call', href: '/book-a-call' },
+    primary: { label: 'Book a Consultation', href: '/book-a-consultation' },
     secondary: { label: 'Discuss Your Project', href: '/contact?service=ai-automation' },
     visual: { tag: { title: 'WhatsApp assistant', sub: 'Example conversation' }, cards: [{ kind: 'chat', title: 'Consultation booked', sub: 'Tue · 11:00 AM' }, { kind: 'edit', title: 'Lead added to CRM', sub: 'Name · Phone · Budget' }], label: 'Illustration of an AI assistant replying to an enquiry and booking an appointment' },
     problem: { heading: 'Every slow reply is a customer who might go elsewhere.', paras: ["Messages come in while you're with a client, driving, or asleep. By the time you reply, some people have already booked with someone else. And your team spends hours copying details between apps, sending reminders and answering the same questions.", 'Automation handles the repetitive part, so you and your team can focus on the work that needs a person.'] },
@@ -133,7 +133,7 @@ export const servicePages: ServicePageContent[] = [
       ['Is my customer data safe?', 'We use trusted platforms, set accounts up in your name, and only collect the information the system needs.'],
     ],
     related: [{ slug: 'lead-generation', text: 'Bring in more enquiries for your assistant to answer.' }, { slug: 'website-development', text: 'Add an assistant to a fast, clear website.' }],
-    cta: { heading: 'How many enquiries are waiting for a reply right now?', text: "Book a call and we'll show you what could be automated in your business, and what's better left to a person.", primary: { label: 'Book a Strategy Call', href: '/book-a-call' } },
+    cta: { heading: 'How many enquiries are waiting for a reply right now?', text: "Book a consultation and we'll show you what could be automated in your business, and what's better left to a person.", primary: { label: 'Book a Consultation', href: '/book-a-consultation' } },
   },
   {
     slug: 'lead-generation',

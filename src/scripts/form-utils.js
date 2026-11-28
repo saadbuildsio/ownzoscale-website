@@ -34,3 +34,6 @@ export const encodeForm = (data) => {
   if (picked.length) out.append('services', picked.join(', '));
   return out.toString();
 };
+
+// "WhatsApp chat,Phone call" + "Phone call" -> true
+export const requiredFor = (list, picked) => !!picked && String(list || '').split(',').map((x) => x.trim()).includes(picked);

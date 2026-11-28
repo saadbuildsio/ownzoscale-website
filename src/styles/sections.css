@@ -125,7 +125,7 @@
 .field label,.field legend{font-weight:600;font-size:.95rem;padding:0}
 .field legend{margin-bottom:8px}
 .opt{font-weight:400;color:var(--text2);font-size:.85rem}
-.field input[type=text],.field input[type=email],.field select,.field textarea{width:100%;font:inherit;font-size:1rem;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.field input[type=text],.field input[type=email],.field input[type=tel],.field select,.field textarea{width:100%;font:inherit;font-size:1rem;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
 .field textarea{resize:vertical;min-height:130px}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cobalt);box-shadow:0 0 0 4px rgba(45,91,255,.14)}
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -175,3 +175,14 @@
 .legal ul{padding-left:20px;display:grid;gap:8px}
 .legal b{color:var(--ink)}
 .legal a{color:var(--cobalt);text-decoration:underline}
+.fmt-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fmt-opt{position:relative;display:grid;gap:4px;justify-items:start;border:1.5px solid var(--line);border-radius:14px;padding:14px;cursor:pointer}
+.fmt-opt input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.fmt-opt .fi{width:34px;height:34px;border-radius:10px;background:rgba(45,91,255,.08);color:var(--cobalt);display:grid;place-items:center;margin-bottom:4px}
+.fmt-opt .fi svg{width:18px;height:18px}
+.fmt-opt b{font-family:var(--f-head);font-size:.95rem}
+.fmt-opt small{color:var(--text2);font-size:.82rem}
+.fmt-opt:has(input:checked){border-color:var(--cobalt);background:rgba(45,91,255,.05);box-shadow:0 0 0 3px rgba(45,91,255,.12)}
+.fmt-opt:has(input:focus-visible){outline:3px solid var(--cobalt);outline-offset:2px}
+.field.bad .fmt-opt{border-color:#D93025}
+@media (max-width:640px){.fmt-pick{grid-template-columns:1fr}.fmt-opt{grid-template-columns:auto 1fr;align-items:center;column-gap:12px}.fmt-opt .fi{grid-row:span 2;margin:0}}

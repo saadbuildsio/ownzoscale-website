@@ -78,6 +78,7 @@ describe('brand rules in the copy', () => {
     [/testimonial|case stud|\b\d+\+? (happy )?clients\b|trusted by/i, 'invented proof'],
     [/one ad to test|test (an|one|a single) ad/i, 'single ad framed as a test'],
     [/US and Pakistan/i, 'old market wording'],
+    [/strategy call/i, 'old "strategy call" wording (now Book a Consultation)'],
   ];
   it.each(banned)('no %s (%s)', (re) => {
     const hits = source.filter(([, s]) => re.test(s)).map(([f]) => f);

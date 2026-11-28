@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { isValidEmail, tierLabel, tierMessage, fieldError, encodeForm } from '../../src/scripts/form-utils.js';
+import { isValidEmail, tierLabel, tierMessage, fieldError, encodeForm, requiredFor } from '../../src/scripts/form-utils.js';
 
 describe('isValidEmail', () => {
   it.each(['a@b.co', 'saad@ownzoscale.com', ' name.last+tag@mail.example.org '])('accepts %s', (e) => expect(isValidEmail(e)).toBe(true));
@@ -54,4 +54,10 @@ describe('encodeForm', () => {
     fd.append('form-name', 'call-request');
     expect(new URLSearchParams(encodeForm(fd)).has('services')).toBe(false);
   });
+});
+
+describe('requiredFor', () => {
+  const list = 'WhatsApp chat,Phone call';
+  it('is true for formats that need a number', () => { expect(requiredFor(list, 'Phone call')).toBe(true); expect(requiredFor(list, 'WhatsApp chat')).toBe(true); });
+  it('is false for video or nothing picked', () => { expect(requiredFor(list, 'Video call')).toBe(false); expect(requiredFor(list, undefined)).toBe(false); expect(requiredFor('', 'Phone call')).toBe(false); });
 });

@@ -1,5 +1,5 @@
 // Enquiry and call-request forms: pre-fill from the link, friendly checks, send to Netlify Forms.
-import { fieldError, tierMessage, encodeForm } from './form-utils.js';
+import { fieldError, tierMessage, encodeForm, requiredFor } from './form-utils.js';
 
 const form = document.querySelector('.oz-form');
 if (form) {
@@ -31,14 +31,28 @@ if (form) {
       const msg = fieldError(el);
       if (msg) { showErr(el, msg); first ||= el; }
     });
-    const group = form.querySelector('[data-group="services"]');
-    if (group) {
+    form.querySelectorAll('[data-group]').forEach((group) => {
       clearErr(group);
       if (!group.querySelector('input:checked')) { showErr(group, group.dataset.msg); first ||= group.querySelector('input'); }
-    }
+    });
+    // A number is needed only when the visitor picks a format that uses it (e.g. WhatsApp or phone).
+    form.querySelectorAll('[data-required-for]').forEach((el) => {
+      const pick = form.querySelector('input[name="format"]:checked')?.value;
+      clearErr(el.closest('.field'));
+      if (!requiredFor(el.dataset.requiredFor, pick)) return;
+      if (!el.value.trim()) { showErr(el, el.dataset.msg); first ||= el; }
+    });
     if (first) first.focus();
     return !first;
   };
+  // Show "(needed for this option)" next to the phone label when the chosen format needs it.
+  form.querySelectorAll('input[name="format"]').forEach((r) => r.addEventListener('change', () => {
+    form.querySelectorAll('[data-required-for]').forEach((el) => {
+      const note = el.closest('.field').querySelector('[data-phone-note]');
+      if (note) note.textContent = requiredFor(el.dataset.requiredFor, r.value) ? '(needed for this option)' : '(optional)';
+    });
+  }));
+  form.addEventListener('change', (e) => { const f = e.target.closest('.field'); if (f?.classList.contains('bad')) clearErr(f); });
   form.addEventListener('input', (e) => { const f = e.target.closest('.field'); if (f?.classList.contains('bad')) clearErr(f); });
 
   form.addEventListener('submit', async (e) => {

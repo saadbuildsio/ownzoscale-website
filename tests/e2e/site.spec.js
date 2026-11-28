@@ -17,7 +17,8 @@ test.describe('every page', () => {
       expect(desc.length).toBeGreaterThan(20);
       const width = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       expect(width, 'no sideways scrolling').toBeLessThanOrEqual(0);
-      await expect(page.locator('footer')).toContainText('Based in Pakistan');
+      await expect(page.locator('footer')).toContainText('All rights reserved.');
+      await expect(page.locator('footer')).not.toContainText('Based in Pakistan');
       expect(errors).toEqual([]);
     });
 
@@ -34,6 +35,11 @@ test.describe('every page', () => {
     await page.goto('/thank-you/');
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
     await expect(page.locator('a.wa')).toHaveCount(0);
+  });
+
+  test('old /book-a-call links are redirected in netlify.toml', async () => {
+    const { readFileSync } = await import('node:fs');
+    expect(readFileSync('netlify.toml', 'utf8')).toMatch(/from = "\/book-a-call"[\s\S]*?to = "\/book-a-consultation"/);
   });
 
   test('unknown pages show the 404 page', async ({ page }) => {
@@ -58,6 +64,7 @@ test.describe('every page', () => {
     expect(sm).toContain('https://ownzoscale.com/services/ai-ads/');
     expect(sm).not.toContain('thank-you');
     expect((sm.match(/<loc>/g) || []).length).toBe(14);
+    expect(sm).toContain('/book-a-consultation/');
     expect(await (await request.get('/robots.txt')).text()).toContain('Sitemap: https://ownzoscale.com/sitemap.xml');
   });
 });
@@ -69,16 +76,30 @@ test.describe('header and footer', () => {
     const btn = page.locator('.menu-btn');
     const small = (page.viewportSize()?.width ?? 1400) < 900;
     if (small) {
+      const panel = page.locator('#mobile-menu');
       await expect(btn).toBeVisible();
-      await expect(page.locator('#site-menu')).toBeHidden();
+      await expect(panel).toBeHidden();
       await btn.click();
       await expect(btn).toHaveAttribute('aria-expanded', 'true');
-      await expect(page.locator('#site-menu').getByRole('link', { name: 'Pricing' })).toBeVisible();
+      await expect(panel).toBeInViewport();
+      await expect(panel.locator('.m-card')).toHaveCount(5);
+      await expect(panel.getByRole('button', { name: 'Close menu' })).toBeFocused();
       await page.keyboard.press('Escape');
+      await expect(panel).toBeHidden();
       await expect(btn).toHaveAttribute('aria-expanded', 'false');
       await btn.click();
-      await page.locator('#site-menu').getByRole('link', { name: 'Pricing' }).click();
-      await expect(page).toHaveURL(/\/pricing/);
+      await page.locator('.m-dim').click({ position: { x: 10, y: 300 } });
+      await expect(panel).toBeHidden();
+      await btn.click();
+      await panel.getByRole('link', { name: /Lead Generation/ }).click();
+      await expect(page).toHaveURL(/\/services\/lead-generation/);
+      // fully visible on a short inner page too (it used to get cut off)
+      await page.locator('.menu-btn').click();
+      const box = await panel.boundingBox();
+      const vp = page.viewportSize();
+      expect(box.y).toBeLessThanOrEqual(0);
+      expect(box.y + box.height).toBeGreaterThanOrEqual(vp.height - 1);
+      await expect(panel.getByRole('link', { name: /Discuss Your Project/ })).toBeInViewport();
     } else {
       await expect(btn).toBeHidden();
       await page.locator('.has-drop > a').hover();
@@ -89,7 +110,7 @@ test.describe('header and footer', () => {
 
   test('current page is marked in the menu', async ({ page }) => {
     await page.goto('/pricing/');
-    await expect(page.locator('#site-menu a[aria-current="page"]').first()).toHaveText('Pricing');
+    await expect(page.locator('a[aria-current="page"]', { hasText: 'Pricing' }).first()).toBeAttached();
   });
 
   test('WhatsApp button opens a chat with the pre-filled message', async ({ page }) => {

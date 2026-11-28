@@ -1,6 +1,7 @@
 ---
 import { services } from '../data/services';
 import { nav } from '../data/site';
+import Icon from './Icon.astro';
 const path = Astro.url.pathname;
 ---
 <header class="wrap nav">
@@ -14,9 +15,28 @@ const path = Astro.url.pathname;
         </ul>
       </li>
       {nav.map((n) => <li><a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
-      <li class="menu-cta"><a class="btn btn-p" href="/contact">Discuss Your Project</a></li>
     </ul>
   </nav>
   <a class="btn btn-p btn-sm head-cta" href="/contact">Discuss Your Project</a>
-  <button class="menu-btn" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <button class="menu-btn" type="button" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu"><span></span><span></span><span></span></button>
 </header>
+<div class="m-dim" data-menu-close hidden></div>
+<div class="m-panel" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="m-top">
+    <a href="/" aria-label="OwnzoScale home"><img src="/logo-light.svg" alt="ownzo scale" width="162" height="24" /></a>
+    <button class="m-close" type="button" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <p class="m-lab"><a href="/services">Services</a></p>
+  <div class="m-cards">
+    {services.map((s) => (
+      <a class="m-card" href={`/services/${s.slug}`} aria-current={path.startsWith(`/services/${s.slug}`) ? 'page' : undefined}>
+        <span class="m-ic"><Icon name={s.icon as any} /></span>
+        <span><b>{s.name}</b><small>{s.short}</small></span>
+      </a>
+    ))}
+  </div>
+  <div class="m-links">
+    {nav.map((n) => <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>)}
+  </div>
+  <div class="m-foot"><a class="btn btn-p" href="/contact">Discuss Your Project <Icon name="arrow" /></a></div>
+</div>

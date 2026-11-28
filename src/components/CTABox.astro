@@ -1,7 +1,7 @@
 ---
 import Icon from './Icon.astro';
 interface Props { title: string; text: string; primary?: { label: string; href: string }; secondary?: { label: string; href: string }; }
-const { title, text, primary = { label: 'Discuss Your Project', href: '/contact' }, secondary = { label: 'Book a Strategy Call', href: '/book-a-call' } } = Astro.props;
+const { title, text, primary = { label: 'Discuss Your Project', href: '/contact' }, secondary = { label: 'Book a Consultation', href: '/book-a-consultation' } } = Astro.props;
 ---
 <div class="ctab"><div class="in">
   <div><h2>{title}</h2><p>{text}</p></div>

@@ -1,17 +1,39 @@
 // Small site-wide scripts: mobile menu, button ripple, card corners, step line, checklist, tracking.
 const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Mobile menu
+// Mobile menu (side panel)
 const menuBtn = document.querySelector('.menu-btn');
-if (menuBtn) {
-  menuBtn.addEventListener('click', () => {
-    const open = document.body.classList.toggle('menu-open');
+const panel = document.getElementById('mobile-menu');
+const dim = document.querySelector('.m-dim');
+if (menuBtn && panel) {
+  let closeTimer;
+  const setOpen = (open) => {
+    clearTimeout(closeTimer);
+    if (open) {
+      panel.hidden = dim.hidden = false;
+      requestAnimationFrame(() => document.body.classList.add('menu-open'));
+      panel.querySelector('.m-close').focus();
+    } else {
+      document.body.classList.remove('menu-open');
+      closeTimer = setTimeout(() => { panel.hidden = dim.hidden = true; }, reduce ? 0 : 280);
+      menuBtn.focus();
+    }
     menuBtn.setAttribute('aria-expanded', String(open));
-    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  });
+  };
+  const isOpen = () => menuBtn.getAttribute('aria-expanded') === 'true';
+  menuBtn.addEventListener('click', () => setOpen(!isOpen()));
+  document.querySelectorAll('[data-menu-close]').forEach((el) => el.addEventListener('click', () => setOpen(false)));
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) menuBtn.click();
+    if (!isOpen()) return;
+    if (e.key === 'Escape') setOpen(false);
+    if (e.key === 'Tab') { // keep keyboard focus inside the panel
+      const f = panel.querySelectorAll('a,button');
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
+  matchMedia('(min-width: 901px)').addEventListener('change', (m) => { if (m.matches && isOpen()) setOpen(false); });
 }
 
 // Click ripple on buttons
@@ -73,6 +95,6 @@ document.addEventListener('click', (e) => {
   if (!a) return;
   const href = a.getAttribute('href') || '';
   if (href.includes('wa.me')) track('whatsapp_click');
-  else if (href.startsWith('/book-a-call')) track('book_call_click');
+  else if (href.startsWith('/book-a-consultation')) track('book_consultation_click');
   else if (href.startsWith('/contact')) track('discuss_project_click', { from: location.pathname });
 });

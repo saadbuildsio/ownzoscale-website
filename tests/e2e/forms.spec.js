@@ -97,24 +97,55 @@ test.describe('enquiry form', () => {
   });
 });
 
-test.describe('call request form', () => {
-  test('validates and sends', async ({ page }) => {
-    await skipCookies(page);
-    const sent = await catchPost(page);
-    await page.goto('/book-a-call/');
-    await expect(page.locator('form[name="call-request"]')).toHaveAttribute('data-netlify', 'true');
-    await page.getByRole('button', { name: 'Request My Call' }).click();
-    await expect(page.getByText('Please tell us when suits you.')).toBeVisible();
-    expect(sent).toHaveLength(0);
+test.describe('consultation form', () => {
+  test.beforeEach(async ({ page }) => skipCookies(page));
+
+  const fillBasics = async (page) => {
     await page.fill('#c-name', 'Test');
     await page.fill('#c-email', 'test@example.com');
     await page.fill('#c-biz', 'Biz');
     await page.fill('#c-times', 'Tue afternoon');
     await page.fill('#c-tz', 'London');
     await page.fill('#c-topic', 'Automation');
-    await page.getByRole('button', { name: 'Request My Call' }).click();
+  };
+
+  test('asks how they want to talk, and validates', async ({ page }) => {
+    const sent = await catchPost(page);
+    await page.goto('/book-a-consultation/');
+    await expect(page.locator('form[name="consultation"]')).toHaveAttribute('data-netlify', 'true');
+    await page.getByRole('button', { name: 'Book My Consultation' }).click();
+    await expect(page.getByText("Please choose how you'd like to talk.")).toBeVisible();
+    await expect(page.getByText('Please tell us when suits you.')).toBeVisible();
+    expect(sent).toHaveLength(0);
+  });
+
+  test('needs a number for WhatsApp or phone, not for video', async ({ page }) => {
+    const sent = await catchPost(page);
+    await page.goto('/book-a-consultation/');
+    await fillBasics(page);
+    await page.locator('label.fmt-opt', { hasText: 'Phone call' }).click();
+    await expect(page.locator('[data-phone-note]')).toHaveText('(needed for this option)');
+    await page.getByRole('button', { name: 'Book My Consultation' }).click();
+    await expect(page.getByText('Please add your number so we can reach you.')).toBeVisible();
+    expect(sent).toHaveLength(0);
+    await page.locator('label.fmt-opt', { hasText: 'Video call' }).click();
+    await expect(page.locator('[data-phone-note]')).toHaveText('(optional)');
+    await page.getByRole('button', { name: 'Book My Consultation' }).click();
     await expect(page).toHaveURL(/\/thank-you/);
-    expect(sent[0].get('form-name')).toBe('call-request');
+    expect(sent[0].get('form-name')).toBe('consultation');
+    expect(sent[0].get('format')).toBe('Video call');
+  });
+
+  test('sends WhatsApp chat requests with the number', async ({ page }) => {
+    const sent = await catchPost(page);
+    await page.goto('/book-a-consultation/');
+    await fillBasics(page);
+    await page.locator('label.fmt-opt', { hasText: 'WhatsApp chat' }).click();
+    await page.fill('#c-phone', '+44 7700 900123');
+    await page.getByRole('button', { name: 'Book My Consultation' }).click();
+    await expect(page).toHaveURL(/\/thank-you/);
+    expect(sent[0].get('format')).toBe('WhatsApp chat');
+    expect(sent[0].get('phone')).toBe('+44 7700 900123');
     expect(sent[0].get('time_zone')).toBe('London');
   });
 });
